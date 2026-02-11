@@ -1,0 +1,10 @@
+@font-face {
+  font-family: G-Ubuntu-n7;
+  font-display: swap;
+  src: url('../data/fonts/ubuntu_v21_4iCv6KVjbNBYlgoCxCvTt2aMH4V_gg.ttf');
+}
+@font-face {
+  font-family: G-Ubuntu-n4;
+  font-display: swap;
+  src: url('../data/fonts/ubuntu_v21_4iCs6KVjbNBYlgo6eAT3v02QFg.ttf');
+}
