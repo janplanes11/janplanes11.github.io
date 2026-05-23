@@ -218,43 +218,6 @@
   .prose p { margin-bottom: 1.2rem; }
   .prose p:last-child { margin-bottom: 0; }
 
-  /* ─── Inline screenshots ─── */
-  .prose .screenshot {
-    display: block;
-    margin: 2rem 0;
-  }
-  .prose .screenshot img {
-    width: 100%;
-    display: block;
-    border: 1px solid var(--border);
-    filter: brightness(0.92) saturate(0.9);
-    transition: filter 0.3s;
-  }
-  .prose .screenshot img:hover {
-    filter: brightness(1) saturate(1);
-  }
-  .prose .screenshot figcaption {
-    font-size: 0.68rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: 0.6rem;
-    opacity: 0.7;
-  }
-  /* Two-column screenshot grid */
-  .prose .screenshot-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin: 2rem 0;
-  }
-  .prose .screenshot-grid .screenshot {
-    margin: 0;
-  }
-  @media (max-width: 600px) {
-    .prose .screenshot-grid { grid-template-columns: 1fr; }
-  }
-
   .content-block {
     margin-bottom: 3.5rem;
     padding-bottom: 3.5rem;
@@ -396,7 +359,7 @@
 
 <!-- HERO -->
 <section class="project-hero" id="project-hero">
-  <img class="hero-cover" id="hero-cover-img" src="" alt="" style="display:none">
+  <!-- Si tienes imagen: <img class="hero-cover" src="ruta/imagen.jpg" alt=""> -->
   <div class="hero-cover-placeholder" id="hero-placeholder"></div>
   <div class="hero-overlay"></div>
 
@@ -476,25 +439,6 @@
 
 <!-- ─── PROJECT DATA ─── -->
 <script>
-// ─── Screenshot helper ───
-// Usage inside description / roleDescription strings:
-//   ${img("images/screenshot.png")}              → full-width image, no caption
-//   ${img("images/screenshot.png", "Caption")}   → full-width image with caption
-//   ${img2("images/a.png", "images/b.png")}      → two images side by side
-function img(src, caption = "") {
-  return `<figure class="screenshot">
-    <img src="${src}" alt="${caption}">
-    ${caption ? `<figcaption>${caption}</figcaption>` : ""}
-  </figure>`;
-}
-function img2(src1, caption1, src2, caption2) {
-  // caption args are optional — call as img2("a.png","",  "b.png","") if no captions
-  return `<div class="screenshot-grid">
-    ${img(src1, caption1 || "")}
-    ${img(src2, caption2 || "")}
-  </div>`;
-}
-
 const PROJECTS = [
   {
     id: 0,
@@ -502,7 +446,6 @@ const PROJECTS = [
     title: "Little Things",
     tags: ["Unity", "2D", "Game Designer", "Level Designer", "Mechanics Programmer"],
     accentTag: "Unity",
-    heroImage: "images/LT_Logo.png",  // ← Ruta a la imagen de portada, ej: "images/little-things-cover.png"
     bgColor: "linear-gradient(135deg,#0d0d20,#111130)",
     engine: "Unity",
     role: "Game Design / Level Design",
@@ -513,21 +456,17 @@ const PROJECTS = [
     description: `
       <p>Little Things is a monochromatic retro 2D platformer with short, fast-paced levels where everything that has color can be interacted with.
       The unique selling point is the character, who can turn into different colors by jumping into power lakes, with each colour giving a different power up (like Blue/Cyan double jump)..</p>
-      ${img("images/LT_SC_2.png")}
       <p>The story follows Whys, a silly little creature in a quest to reunite with his love Ky, after he gets lost in the Dungeon. 
         Whys must then traverse multiple challenges and puzzles and solve platforming challenges until it can reunite with Ky.</p>
       <p>This started originally as a second-year university project, but thanks to achievements mentioned later on, became a full-fledged game that published in 2026 for all platforms.</p>
-      ${img("images/LT_SC_5.png")}
     `,
     roleDescription: `
       <p>My main role during this project was <strong style="color:var(--text)">Game & Level Design</strong>.
         I had the task to design the 80 levels from the final product, 
         each having its own unique puzzles or platforming sections, 
         focusing on making beats that gave players the satisfaction of figuring out how to solve the levels.</p>
-        ${img("images/LT_SC_1.png")}
       <p>When making new levels, it got to a point that we needed too many levels with too few mechanics.
         As I said, i was responsible for designing said mechanics like Bath Bombs, Springs or new power ups like the Yellow power-up and how would they work and interact with the player and with other elements. </p>
-        ${img("images/LT_SC_4.png")}
         <p>My work wasn’t purely game design, 
           my role was also that of a gameplay programmer, 
           specifically game elements I designed such as Moving Platforms, 
@@ -539,7 +478,6 @@ const PROJECTS = [
       "Won Best Gameplay Award at ENTI-UB's Awards Demoday",
       "Little Things gets a publisher to be released on the market",
       "Little Things published and available on all platforms in 2026."
-      
     ]
   },
   {
@@ -548,7 +486,6 @@ const PROJECTS = [
     title: "Pipo the Penguin",
     tags: ["Unity", "Level Design", "3D"],
     accentTag: "Unity",
-    heroImage: "images/PP_LOGO.png",  // ← Ruta a la imagen de portada, ej: "images/pipo-cover.png"
     bgColor: "linear-gradient(135deg,#0d1020,#0c1430)",
     engine: "Unity 6",
     role: "Level Designer",
@@ -561,19 +498,16 @@ const PROJECTS = [
       <p>The game center around Pipo, an indebted penguin who forgets to catch a ferry and his family abandons him.
         He must then explore different areas of the South Pole, finding enough Golden Coins to pay his ticket and reunite with his family.</p>
        <p>This project served as the final year project and as the base of my TFG (Final Degree Project)</p>
-       ${img("images/PP_MAIN.png")}
     `,
     roleDescription: `
       <p>My main role was <strong style="color:var(--text)">Level Designer</strong>. I designed and worked on multiple
         levels from drafts to block out to the final product with all the dressing.</p>
-        ${img("images/PP_SC_4.png")}
       <p>The main objective was to figure different gimmicks for levels that would work for a 'speedrunning' playstyle
         , since the main appeal of the game is to try and go as fast as you can.
         The majority of levels focus on a linear experience with touches of exploration to make the player enjoy going off the beaten path.</p>
         Although not all levels made the cut, it served as a learning experience that 
         helped me see the key importance of a good relation between the controller and
         the levels.</p>
-        ${img("images/PP_SC_3.png")}
     `,
     achievements: [
       "Designed and implemented 5 levels, from scratch to dressed ",
@@ -588,7 +522,6 @@ const PROJECTS = [
     title: "Time Shards",
     tags: ["Unity", "Producer", "Game Design", "Level Design", "Mechanics Programmer"],
     accentTag: "Unity",
-    heroImage: "images/TS_LOGO_2.png",  // ← Ruta a la imagen de portada, ej: "images/time-shards-cover.png"
     bgColor: "linear-gradient(135deg,#100d20,#180d2e)",
     engine: "Unity 6",
     role: "Producer, Game Designer",
@@ -600,10 +533,8 @@ const PROJECTS = [
       <p>Time Shards is a 2DHD roguelike with a turn-based combat system executed in real-time.
         Similar to ARCO, you would plan out your moves for a turn and the actions were executed at the same
         time as the enemies.</p>
-        ${img("images/TS_SC_3.png")}
         <p>After each battle, the player could explore a node map with different paths and events
           that helped you upgrade your abilities and attacks.</p>
-          ${img("images/TS_SC_1.png")}
           <p>This project was started as a third-year project</p>
     `,
     roleDescription: `
@@ -618,7 +549,7 @@ const PROJECTS = [
         I also designed the shop and economy system, 
         making formulas to define how much EXP (the coin of the game) 
         you could obtain each round depending on how well had you played a level.</p>
-${img("images/TS_SC_4.png")}
+
         <p>
           Finally, as a <strong style="color:var(--text)">Gameplay Programmer</strong> I focused on programming the turn system manager, 
           that tracked when were you on the developing turn phase or in the execution phase 
@@ -628,7 +559,7 @@ ${img("images/TS_SC_4.png")}
           I also programmed the shop system, 
           where it featured a pool of items it could choose from to put on display and to them equip or upgrade the player if they already had the ability.
           </p>
-${img("images/TS_SC_2.png")}
+
           <p>While I am incredibly proud of the final output, a cohesive and well-executed game,
              it did not meet some of the objectives we initially anticipated 
              like a DemoDay nomination. 
@@ -653,7 +584,6 @@ ${img("images/TS_SC_2.png")}
     title: "Donkey Kong Phaser Remake",
     tags: ["Phaser", "JavaScript", "Mechanics"],
     accentTag: "Phaser",
-    heroImage: "images/DK_LOGO.png",  // ← Ruta a la imagen de portada, ej: "images/donkey-kong-cover.png"
     bgColor: "linear-gradient(135deg,#0d1a12,#0d1e14)",
     engine: "Phaser",
     role: "Mechanics Programmer",
@@ -667,7 +597,6 @@ ${img("images/TS_SC_2.png")}
          to learn more about how the Phaser engine works,
           as well as to learn a bit about soft skills,
            especially on the task assignment section, for which we used Jira.</p>
-           ${img("images/DK_MAIN.png")}
            <p>
             The game featured only 2 levels from the original game, as we ran in a tight schedule. We did, however, implement all of the mechanics in each of the levels which included:</p>
 
@@ -696,7 +625,6 @@ ${img("images/TS_SC_2.png")}
              Fire Barrel, the Fire Barrel, which once lit up spawned the Fire Enemy
               that chased down the player and the Ladders that the player could climb up or
                not, depending on if they were broken down.</p>
-               ${img("images/DK_SC_1.png")}
 
 
       <p>I also had the QA role, 
@@ -714,7 +642,6 @@ ${img("images/TS_SC_2.png")}
     title: "1942 SDL Remake",
     tags: ["SDL", "C++", "Arcade"],
     accentTag: "SDL",
-    heroImage: "images/1942_LOGO.png",  // ← Ruta a la imagen de portada, ej: "images/1942-cover.png"
     bgColor: "linear-gradient(135deg,#1a100d,#201410)",
     engine: "SDL",
     role: "Programmer",
@@ -730,7 +657,7 @@ ${img("images/TS_SC_2.png")}
             The project featured three enemy types with different flight patterns
              that were loaded up via XML and different levels that loaded different pattern
               of enemies.</p>
-${img("images/1942_SC_1.png")}
+
               <p>Apart from the regular gameplay, 
                 it also featured a Menu where you could choose to check a ranking out 
                 to see where your score stood. This score and ranking was also saved, 
@@ -740,12 +667,10 @@ ${img("images/1942_SC_1.png")}
     roleDescription: `
       <p>I programmed the menu navigation and the different actions you could 
         do except the ranking system in itself.</p>
-        ${img("images/1942_SC_3.png")}
         <p>Gameplay wise y coded the player controller, so basically the movement, 
           the ability to shoot and collision detections with enemies, projectiles and boosts.
           Furthermore, I also coded the enemy behaviors and movement patterns, l
           ike moving in a V shape or doing a loop and shooting when the time was adequate. </p>
-          ${img("images/1942_SC_4.png")}
     `,
     achievements: [
       "Learnt how to use SDL in a game development enviroment",
@@ -760,7 +685,6 @@ ${img("images/1942_SC_1.png")}
     title: "Player Controller for Movement Shooter",
     tags: ["Unreal Engine 5", "Game Design", "BluePrints"],
     accentTag: "Unreal Engine 5",
-    heroImage: "images/UE_LOGO.png",  // ← Ruta a la imagen de portada, ej: "images/movement-shooter-cover.png"
     bgColor: "linear-gradient(135deg,#0d1818,#0a1a1a)",
     engine: "Unreal Engine 5",
     role: "Game Designer, Gameplay Programmer",
@@ -773,7 +697,7 @@ ${img("images/1942_SC_1.png")}
         The original idea was to recreate 1:1 the Ultrakill player controller
          in Unreal Engine 5 but it ended up translating in a prototype for a game
           that never happened.</p>
-${img("images/MS_SC_1.png")}
+
       <p>The game was essentially a boomer shooter but more vertical than Doom and each level
          had a timer that would kill you instantly if dropped to 0.
           You could regain time by killing enemies, healing or obtaining more ammo. 
@@ -801,7 +725,6 @@ ${img("images/MS_SC_1.png")}
           where the game would spawn in a melee enemy that would chase you down
            or a ranged enemy that could approach, shoot or back away from you depending
             on their distance from you.</p>
-            ${img("images/MS_SC_3.png")}
     `,
     achievements: [
       "Learned more in depth the use of blueprints in Unreal 5",
@@ -824,20 +747,9 @@ function renderProject(id) {
 
   document.title = p.title + ' — GD Portfolio';
 
-  // Hero — image or gradient placeholder
-  const coverImg = document.getElementById('hero-cover-img');
-  const placeholder = document.getElementById('hero-placeholder');
-  if (p.heroImage) {
-    coverImg.src = p.heroImage;
-    coverImg.alt = p.title;
-    coverImg.style.display = 'block';
-    placeholder.style.display = 'none';
-  } else {
-    coverImg.style.display = 'none';
-    placeholder.style.display = 'flex';
-    placeholder.textContent = p.number;
-    placeholder.style.background = p.bgColor;
-  }
+  // Hero
+  document.getElementById('hero-placeholder').textContent = p.number;
+  document.getElementById('hero-placeholder').style.background = p.bgColor;
   document.getElementById('project-number').textContent = `// proyecto ${p.number}`;
   document.getElementById('project-title').textContent = p.title;
 
