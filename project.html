@@ -883,13 +883,13 @@ function renderProject(id) {
   const navEl = document.getElementById('project-nav');
   const prevHTML = id > 0
     ? `<a href="project.html?id=${id-1}" class="project-nav-link prev">
-        <span class="nav-link-label">Anterior</span>
+        <span class="nav-link-label">Previous</span>
         <span class="nav-link-title">${PROJECTS[id-1].title}</span>
        </a>` : '<div></div>';
 
   const nextHTML = id < PROJECTS.length - 1
     ? `<a href="project.html?id=${id+1}" class="project-nav-link next">
-        <span class="nav-link-label">Siguiente</span>
+        <span class="nav-link-label">Next</span>
         <span class="nav-link-title">${PROJECTS[id+1].title}</span>
        </a>` : '<div></div>';
 
