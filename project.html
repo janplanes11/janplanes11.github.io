@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Proyecto — GD Portfolio</title>
+<title>My Portfolio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
@@ -390,7 +390,7 @@
 <body>
 
 <nav>
-  <a href="index.html" class="nav-logo">GD</a>
+  <a href="index.html" class="nav-logo">HOME</a>
   <a href="index.html#projects" class="nav-back">All Projects</a>
 </nav>
 
@@ -838,7 +838,7 @@ function renderProject(id) {
     placeholder.textContent = p.number;
     placeholder.style.background = p.bgColor;
   }
-  document.getElementById('project-number').textContent = `// proyecto ${p.number}`;
+  document.getElementById('project-number').textContent = `// Project ${p.number}`;
   document.getElementById('project-title').textContent = p.title;
 
   const tagsEl = document.getElementById('project-tags');
