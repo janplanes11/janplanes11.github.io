@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proyecto — GD Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #07070f;
+    --surface: #0e0e1c;
+    --border: #1e1e38;
+    --accent: #e8f000;
+    --accent-dim: rgba(232,240,0,0.10);
+    --text: #f0eefc;
+    --muted: #7b7a99;
+    --card-bg: #0b0b18;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 15px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.04) 3px,
+      rgba(0,0,0,0.04) 4px
+    );
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 3rem;
+    background: rgba(7,7,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: 1rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-decoration: none;
+  }
+
+  .nav-back {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-back:hover { color: var(--accent); }
+  .nav-back::before { content: '←'; }
+
+  /* ─── HERO ─── */
+  .project-hero {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 8rem 3rem 4rem;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-cover {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: brightness(0.25) saturate(0.7);
+  }
+
+  .hero-cover-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: 12vw;
+    color: rgba(232,240,0,0.05);
+    overflow: hidden;
+  }
+  .hero-cover-placeholder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(232,240,0,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232,240,0,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(7,7,15,0.95) 0%, rgba(7,7,15,0.5) 50%, rgba(7,7,15,0.2) 100%);
+  }
+
+  .project-hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .project-number-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    opacity: 0.7;
+  }
+
+  h1.project-title {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: clamp(2rem, 5vw, 4rem);
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+  }
+
+  .project-meta-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3em 0.85em;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .tag.accent {
+    border-color: rgba(232,240,0,0.4);
+    color: var(--accent);
+    background: var(--accent-dim);
+  }
+
+  /* ─── CONTENT ─── */
+  .project-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 5rem 3rem;
+  }
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.25rem;
+  }
+
+  h2.block-title {
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--text);
+    margin-bottom: 1.25rem;
+    line-height: 1.3;
+  }
+
+  .prose {
+    color: var(--muted);
+    font-size: 0.88rem;
+    line-height: 1.9;
+  }
+  .prose p { margin-bottom: 1.2rem; }
+  .prose p:last-child { margin-bottom: 0; }
+
+  .content-block {
+    margin-bottom: 3.5rem;
+    padding-bottom: 3.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .content-block:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+
+  /* Sidebar */
+  .sidebar { position: sticky; top: 6rem; }
+
+  .sidebar-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 1.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .sidebar-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .sidebar-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .sidebar-row {
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar-row:last-child { border-bottom: none; }
+
+  /* Achievements list */
+  .achievements-list { list-style: none; }
+
+  .achievements-list li {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .achievements-list li:last-child { border-bottom: none; }
+
+  .achievement-icon {
+    flex-shrink: 0;
+    width: 28px; height: 28px;
+    background: var(--accent-dim);
+    border: 1px solid rgba(232,240,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    color: var(--accent);
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    margin-top: 0.1rem;
+  }
+
+  /* Nav between projects */
+  .project-nav {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 3rem 5rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .project-nav-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    text-decoration: none;
+    padding: 1.5rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    flex: 1;
+    transition: border-color 0.2s;
+    max-width: 280px;
+  }
+  .project-nav-link:hover { border-color: var(--accent); }
+
+  .nav-link-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .nav-link-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .project-nav-link.next { text-align: right; margin-left: auto; }
+  .project-nav-link.prev .nav-link-label::before { content: '← '; }
+  .project-nav-link.next .nav-link-label::after { content: ' →'; }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .project-hero { padding: 6rem 1.5rem 3rem; }
+    .project-content { padding: 3rem 1.5rem; }
+    .content-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .sidebar { position: static; }
+    .project-nav { padding: 0 1.5rem 3rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">GD</a>
+  <a href="index.html#projects" class="nav-back">All Projects</a>
+</nav>
+
+<!-- HERO -->
+<section class="project-hero" id="project-hero">
+  <!-- Si tienes imagen: <img class="hero-cover" src="ruta/imagen.jpg" alt=""> -->
+  <div class="hero-cover-placeholder" id="hero-placeholder"></div>
+  <div class="hero-overlay"></div>
+
+  <div class="project-hero-content">
+    <div class="project-number-tag" id="project-number"></div>
+    <h1 class="project-title" id="project-title">Loading...</h1>
+    <div class="project-meta-tags" id="project-tags"></div>
+  </div>
+</section>
+
+<!-- CONTENT -->
+<div class="project-content">
+  <div class="content-grid">
+
+    <!-- MAIN COLUMN -->
+    <div class="main-col">
+
+      <div class="content-block reveal">
+        <div class="section-label">// description</div>
+        <h2 class="block-title" id="about-title">About the project</h2>
+        <div class="prose" id="project-description">
+          <p>Loading...</p>
+        </div>
+      </div>
+
+      <div class="content-block reveal">
+        <div class="section-label">// mi rol</div>
+        <h2 class="block-title" id="role-title">My role</h2>
+        <div class="prose" id="project-role">
+          <p>Loading...</p>
+        </div>
+      </div>
+
+      <div class="content-block reveal">
+        <div class="section-label">// Achievements and learning</div>
+        <h2 class="block-title">What was achieved:</h2>
+        <ul class="achievements-list" id="project-achievements"></ul>
+      </div>
+
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar reveal">
+
+      <div class="sidebar-card">
+        <div class="section-label">// Project info</div>
+        <div class="sidebar-row">
+          <div class="sidebar-label">Engine</div>
+          <div class="sidebar-value" id="info-engine">—</div>
+        </div>
+        <div class="sidebar-row">
+          <div class="sidebar-label">Role</div>
+          <div class="sidebar-value" id="info-role">—</div>
+        </div>
+        <div class="sidebar-row">
+          <div class="sidebar-label">Duration</div>
+          <div class="sidebar-value" id="info-duration">—</div>
+        </div>
+        <div class="sidebar-row">
+          <div class="sidebar-label">Team</div>
+          <div class="sidebar-value" id="info-team">—</div>
+        </div>
+        <div class="sidebar-row">
+          <div class="sidebar-label">Platform</div>
+          <div class="sidebar-value" id="info-platform">—</div>
+        </div>
+      </div>
+
+      <div id="link-btn-container"></div>
+
+    </aside>
+  </div>
+</div>
+
+<!-- PROJECT NAV -->
+<div class="project-nav" id="project-nav"></div>
+
+<!-- ─── PROJECT DATA ─── -->
+<script>
+const PROJECTS = [
+  {
+    id: 0,
+    number: "01",
+    title: "Little Things",
+    tags: ["Unity", "2D", "Game Designer", "Level Designer", "Mechanics Programmer"],
+    accentTag: "Unity",
+    bgColor: "linear-gradient(135deg,#0d0d20,#111130)",
+    engine: "Unity",
+    role: "Game Design / Level Design",
+    duration: "2022-2026",
+    team: "3 persons",
+    platform: "Switch / PS5 / Xbox / PC / Itch.io ",
+    link: "https://reiven-9045.itch.io/little-things",
+    description: `
+      <p>Little Things is a monochromatic retro 2D platformer with short, fast-paced levels where everything that has color can be interacted with.
+      The unique selling point is the character, who can turn into different colors by jumping into power lakes, with each colour giving a different power up (like Blue/Cyan double jump)..</p>
+      <p>The story follows Whys, a silly little creature in a quest to reunite with his love Ky, after he gets lost in the Dungeon. 
+        Whys must then traverse multiple challenges and puzzles and solve platforming challenges until it can reunite with Ky.</p>
+      <p>This started originally as a second-year university project, but thanks to achievements mentioned later on, became a full-fledged game that published in 2026 for all platforms.</p>
+    `,
+    roleDescription: `
+      <p>My main role during this project was <strong style="color:var(--text)">Game & Level Design</strong>.
+        I had the task to design the 80 levels from the final product, 
+        each having its own unique puzzles or platforming sections, 
+        focusing on making beats that gave players the satisfaction of figuring out how to solve the levels.</p>
+      <p>When making new levels, it got to a point that we needed too many levels with too few mechanics.
+        As I said, i was responsible for designing said mechanics like Bath Bombs, Springs or new power ups like the Yellow power-up and how would they work and interact with the player and with other elements. </p>
+        <p>My work wasn’t purely game design, 
+          my role was also that of a gameplay programmer, 
+          specifically game elements I designed such as Moving Platforms, 
+          Conveyor Belts and switches to control them.</p>
+    `,
+    achievements: 
+    [
+      "3 nominations at the ENTI-UB Awards Demoday: Best 2nd-year project, Best Gameplay, Best Publishable Game",
+      "Won Best Gameplay Award at ENTI-UB's Awards Demoday",
+      "Little Things gets a publisher to be released on the market",
+      "Little Things published and available on all platforms in 2026."
+    ]
+  },
+  {
+    id: 1,
+    number: "02",
+    title: "Pipo the Penguin",
+    tags: ["Unity", "Level Design", "3D"],
+    accentTag: "Unity",
+    bgColor: "linear-gradient(135deg,#0d1020,#0c1430)",
+    engine: "Unity 6",
+    role: "Level Designer",
+    duration: "2025-2026",
+    team: "5 persons",
+    platform: "PC",
+    link: "",
+    description: `
+      <p>Pipo the Penguin is a dynamic 3D platformer where your objective is to go as fast as possible with the moveset of a penguin.</p>
+      <p>The game center around Pipo, an indebted penguin who forgets to catch a ferry and his family abandons him.
+        He must then explore different areas of the South Pole, finding enough Golden Coins to pay his ticket and reunite with his family.</p>
+       <p>This project served as the final year project and as the base of my TFG (Final Degree Project)</p>
+    `,
+    roleDescription: `
+      <p>My main role was <strong style="color:var(--text)">Level Designer</strong>. I designed and worked on multiple
+        levels from drafts to block out to the final product with all the dressing.</p>
+      <p>The main objective was to figure different gimmicks for levels that would work for a 'speedrunning' playstyle
+        , since the main appeal of the game is to try and go as fast as you can.
+        The majority of levels focus on a linear experience with touches of exploration to make the player enjoy going off the beaten path.</p>
+        Although not all levels made the cut, it served as a learning experience that 
+        helped me see the key importance of a good relation between the controller and
+        the levels.</p>
+    `,
+    achievements: [
+      "Designed and implemented 5 levels, from scratch to dressed ",
+      "Learned to use modeling tools such as ProBuilder",
+      "3 nominations at ENTI-UB's DemoDay Awards: Best TFG/VS, Best Gameplay and Best Trailer ",
+      "Won Best Trailer Award at ENTI-UB's Demoday Awards"
+    ]
+  },
+  {
+    id: 2,
+    number: "03",
+    title: "Time Shards",
+    tags: ["Unity", "Producer", "Game Design", "Level Design", "Mechanics Programmer"],
+    accentTag: "Unity",
+    bgColor: "linear-gradient(135deg,#100d20,#180d2e)",
+    engine: "Unity 6",
+    role: "Producer, Game Designer",
+    duration: "2024-2025",
+    team: "5 persons",
+    platform: "PC",
+    link: "",
+    description: `
+      <p>Time Shards is a 2DHD roguelike with a turn-based combat system executed in real-time.
+        Similar to ARCO, you would plan out your moves for a turn and the actions were executed at the same
+        time as the enemies.</p>
+        <p>After each battle, the player could explore a node map with different paths and events
+          that helped you upgrade your abilities and attacks.</p>
+          <p>This project was started as a third-year project</p>
+    `,
+    roleDescription: `
+      <p>My main role in this project was <strong style="color:var(--text)">Producer</strong>, though
+        I also was lead <strong style="color:var(--text)">Game Designer & Gameplay Programmer</strong>.
+         With the role of Producer i had to plan out sprints, 
+         assign tasks and check in on everyone during said sprints, 
+         balancing out the total work hours we could do during certain weeks.</p>
+
+      <p><strong style="color:var(--text)">Game Design</strong> was focused mainly on what abilities and enemies there could be, 
+        how they behaved and interacted with the world. 
+        I also designed the shop and economy system, 
+        making formulas to define how much EXP (the coin of the game) 
+        you could obtain each round depending on how well had you played a level.</p>
+
+        <p>
+          Finally, as a <strong style="color:var(--text)">Gameplay Programmer</strong> I focused on programming the turn system manager, 
+          that tracked when were you on the developing turn phase or in the execution phase 
+          in order for the player to track what they had to do.
+          The first iterations of the combat system were also developed by me 
+          and used by our lead programmer as pillars for the revamped system.
+          I also programmed the shop system, 
+          where it featured a pool of items it could choose from to put on display and to them equip or upgrade the player if they already had the ability.
+          </p>
+
+          <p>While I am incredibly proud of the final output, a cohesive and well-executed game,
+             it did not meet some of the objectives we initially anticipated 
+             like a DemoDay nomination. 
+             Nevertheless, I consider this project a personal milestone.
+            Acting as the project's Producer allowed me to navigate the complexities of 
+            project management and team leadership for the first time. 
+            This 'trial by fire' taught me how to balance creative vision with 
+            logistical constraints. The project may not have been the hit we initially expected, 
+            but it was a trigger for my growth as a multidisciplinary professional, 
+            equipping me with a toolkit I use on my daily work basis.</p>
+    `,
+    achievements: [
+      "Designed a turn-based real-time combat system",
+      "Designed and developed a unique shopping system",
+      "Designed a reward system based on your performance in combat",
+      "Learnt more about being a SCRUM master and task assigning"
+    ]
+  },
+  {
+    id: 3,
+    number: "04",
+    title: "Donkey Kong Phaser Remake",
+    tags: ["Phaser", "JavaScript", "Mechanics"],
+    accentTag: "Phaser",
+    bgColor: "linear-gradient(135deg,#0d1a12,#0d1e14)",
+    engine: "Phaser",
+    role: "Mechanics Programmer",
+    duration: "3 months",
+    team: "3 Person",
+    platform: "PC",
+    link: "",
+    description: `
+      <p>This project (as the name indicates) consists of a rendition of Donkey Kong 
+        made in Phaser. This project was developed by a team of three with the objective
+         to learn more about how the Phaser engine works,
+          as well as to learn a bit about soft skills,
+           especially on the task assignment section, for which we used Jira.</p>
+           <p>
+            The game featured only 2 levels from the original game, as we ran in a tight schedule. We did, however, implement all of the mechanics in each of the levels which included:</p>
+
+<p>- Power Hammer</p>
+
+<p>- Ladders</p>
+
+<p>- Barrels</p>
+
+<p>- Fire Barrel</p>
+
+<p>- Springs</p>
+
+<p>- Collectibles</p>
+
+<p>As well as other details like a point system and sound effects and interactions.
+            </p>
+    `,
+    roleDescription: `
+      <p>My role was primarily Mechanics Programmer, 
+        focusing especially on Donkey Kong coding its behavior throwing specific
+         Barrels at some points of the game (like how the first always goes straight down),
+          the regular Barrels where i coded the paths they can take,
+           either going down floor by floor or straight down,
+            as well as what type of barrel can it be, like the blue that lits up the
+             Fire Barrel, the Fire Barrel, which once lit up spawned the Fire Enemy
+              that chased down the player and the Ladders that the player could climb up or
+               not, depending on if they were broken down.</p>
+
+
+      <p>I also had the QA role, 
+        testing mechanics my partners had developed to see if they were working properly 
+        and finding, recreating and reporting any bugs on the features
+         we were implementing and finding ways to fix them.</p>
+    `,
+    achievements: [
+      "This project was used as a learning experience on soft skills and task assigning, so there were no significant achievements made other than the formation of the people involved."
+    ]
+  },
+  {
+    id: 4,
+    number: "05",
+    title: "1942 SDL Remake",
+    tags: ["SDL", "C++", "Arcade"],
+    accentTag: "SDL",
+    bgColor: "linear-gradient(135deg,#1a100d,#201410)",
+    engine: "SDL",
+    role: "Programmer",
+    duration: "4 meses",
+    team: "2 persons",
+    platform: "PC",
+    link: "",
+    description: `
+      <p>This project (as the name indicates) consists of a rendition of the arcade game 1942
+         made in the SDL engine.
+          This project was developed by a team of two with the objective to learn more
+           about how the SDL engine works.
+            The project featured three enemy types with different flight patterns
+             that were loaded up via XML and different levels that loaded different pattern
+              of enemies.</p>
+
+              <p>Apart from the regular gameplay, 
+                it also featured a Menu where you could choose to check a ranking out 
+                to see where your score stood. This score and ranking was also saved, 
+                read and written in an XML, that loaded when you checked the ranking menu.
+                 You could also mute the sound effects in gameplay with this menu.</p>
+    `,
+    roleDescription: `
+      <p>I programmed the menu navigation and the different actions you could 
+        do except the ranking system in itself.</p>
+        <p>Gameplay wise y coded the player controller, so basically the movement, 
+          the ability to shoot and collision detections with enemies, projectiles and boosts.
+          Furthermore, I also coded the enemy behaviors and movement patterns, l
+          ike moving in a V shape or doing a loop and shooting when the time was adequate. </p>
+    `,
+    achievements: [
+      "Learnt how to use SDL in a game development enviroment",
+      "Learnt the usage of XMLs, writing and reading info in them",
+      "Learnt how to develop enemy behaviors based on said information",
+      
+    ]
+  },
+  {
+    id: 5,
+    number: "06",
+    title: "Player Controller for Movement Shooter",
+    tags: ["Unreal Engine 5", "Game Design", "BluePrints"],
+    accentTag: "Unreal Engine 5",
+    bgColor: "linear-gradient(135deg,#0d1818,#0a1a1a)",
+    engine: "Unreal Engine 5",
+    role: "Game Designer, Gameplay Programmer",
+    duration: "2 weeks",
+    team: "2 persons",
+    platform: "PC",
+    link: "",
+    description: `
+      <p>This project consisted in the design and development of a player controller. 
+        The original idea was to recreate 1:1 the Ultrakill player controller
+         in Unreal Engine 5 but it ended up translating in a prototype for a game
+          that never happened.</p>
+
+      <p>The game was essentially a boomer shooter but more vertical than Doom and each level
+         had a timer that would kill you instantly if dropped to 0.
+          You could regain time by killing enemies, healing or obtaining more ammo. 
+          The game loop consisted on surviving enemy waves.</p>
+    `,
+    roleDescription: `
+      <p>My job was to program the whole chracter controller using Unreal’s blueprints. 
+        The basic movement was already done in the Engine, 
+        so I could focus on developing the movement mechanics as well as the weapon. These features were the following:</p>
+        <p><strong style="color:var(--text)">Weapon</strong></p>
+        <p>- Regular Shot: A hitscan shot that dealt damage and interacted with physics objects, 
+          pushing them depending on the spot you hit them</p>
+          <p>- Charged shot: A projectile you could charge and depending on the
+             time of charge it would deal more damage and travel faster and further</p>
+             <p><strong style="color:var(--text)">Movement</strong></p>
+        <p>- Dash: A directional dash based on which direction were you moving in</p>
+        <p>- Ground Slam: When airbone, the player could quickly come back down by using this mechanic</p>
+        <p>- Boosted Jump: after doing a Ground Slam, if you pressed the jump button in a small
+           period of time, your jump would receive a significant height boost. 
+           This boost was defined by how long were you falling and the strength of impact.</p>
+        <p>- Slide: When on ground, the player would crouch and slide in the direction they were looking at</p>
+
+        <p></p>
+        <p>I also made the timer system and a very rudimentary enemy pool system 
+          where the game would spawn in a melee enemy that would chase you down
+           or a ranged enemy that could approach, shoot or back away from you depending
+            on their distance from you.</p>
+    `,
+    achievements: [
+      "Learned more in depth the use of blueprints in Unreal 5",
+      "Designed and implemented a satisfactory character controller",
+      "Developed a coherent gameloop for a prototype",
+      "Designed and programmed enemy behavior for the ranged enemy"
+    ]
+  }
+];
+
+// ─── Load project from URL param ───
+function getProjectId() {
+  const params = new URLSearchParams(window.location.search);
+  const id = parseInt(params.get('id'));
+  return isNaN(id) ? 0 : Math.max(0, Math.min(id, PROJECTS.length - 1));
+}
+
+function renderProject(id) {
+  const p = PROJECTS[id];
+
+  document.title = p.title + ' — GD Portfolio';
+
+  // Hero
+  document.getElementById('hero-placeholder').textContent = p.number;
+  document.getElementById('hero-placeholder').style.background = p.bgColor;
+  document.getElementById('project-number').textContent = `// proyecto ${p.number}`;
+  document.getElementById('project-title').textContent = p.title;
+
+  const tagsEl = document.getElementById('project-tags');
+  tagsEl.innerHTML = p.tags.map(t =>
+    `<span class="tag${t === p.accentTag ? ' accent' : ''}">${t}</span>`
+  ).join('');
+
+  // Sidebar info
+  document.getElementById('info-engine').textContent = p.engine;
+  document.getElementById('info-role').textContent = p.role;
+  document.getElementById('info-duration').textContent = p.duration;
+  document.getElementById('info-team').textContent = p.team;
+  document.getElementById('info-platform').textContent = p.platform;
+
+  // Link button
+  if (p.link) {
+    document.getElementById('link-btn-container').innerHTML =
+      `<a href="${p.link}" target="_blank" class="btn btn-primary" style="
+        display:block; width:100%; text-align:center; text-decoration:none;
+        font-family:'DM Mono',monospace; font-size:0.72rem; letter-spacing:0.12em;
+        text-transform:uppercase; padding:1em 2em;
+        background:var(--accent); color:var(--bg); transition:background 0.2s;
+      ">Ver proyecto ↗</a>`;
+  }
+
+  // Description
+  document.getElementById('project-description').innerHTML = p.description;
+
+  // Role
+  document.getElementById('project-role').innerHTML = p.roleDescription;
+
+  // Achievements
+  const achEl = document.getElementById('project-achievements');
+  achEl.innerHTML = p.achievements.map((a, i) =>
+    `<li>
+      <div class="achievement-icon">${String(i+1).padStart(2,'0')}</div>
+      <span>${a}</span>
+    </li>`
+  ).join('');
+
+  // Prev / next nav
+  const navEl = document.getElementById('project-nav');
+  const prevHTML = id > 0
+    ? `<a href="project.html?id=${id-1}" class="project-nav-link prev">
+        <span class="nav-link-label">Anterior</span>
+        <span class="nav-link-title">${PROJECTS[id-1].title}</span>
+       </a>` : '<div></div>';
+
+  const nextHTML = id < PROJECTS.length - 1
+    ? `<a href="project.html?id=${id+1}" class="project-nav-link next">
+        <span class="nav-link-label">Siguiente</span>
+        <span class="nav-link-title">${PROJECTS[id+1].title}</span>
+       </a>` : '<div></div>';
+
+  navEl.innerHTML = prevHTML + nextHTML;
+}
+
+// ─── Init ───
+const currentId = getProjectId();
+renderProject(currentId);
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.reveal').forEach((el, i) => {
+  el.style.transitionDelay = (i * 0.1) + 's';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>

@@ -1,100 +1,747 @@
 <!DOCTYPE html>
-<html >
+<html lang="es">
 <head>
-    <meta charset="utf-8">
-    
-      <title>Portfolio - UXPin Preview</title>
-    
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game Dev Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    <meta name="keywords" content="">
-    <meta name="description" content="">
-    <meta name="robots" content="noindex">
-
-    <link rel="apple-touch-icon" href="data/preview.uxpincdn.com_img_ios-logo-180x180-4f260175.png">
-    <link rel="icon" type="image/png" href="data/preview.uxpincdn.com_img_favicon-2d194bee.ico">
-    <link rel="icon" sizes="180x180" href="data/preview.uxpincdn.com_img_ios-logo-180x180-4f260175.png">
-    <link rel="shortcut icon" href="data/preview.uxpincdn.com_img_favicon-2d194bee.ico">
-
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,minimal-ui">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-
-    <style>
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
+  :root {
+    --bg: #07070f;
+    --surface: #0e0e1c;
+    --border: #1e1e38;
+    --accent: #e8f000;
+    --accent-dim: rgba(232,240,0,0.12);
+    --text: #f0eefc;
+    --muted: #7b7a99;
+    --card-bg: #0b0b18;
   }
-  *:before,
-  *:after {
-    box-sizing: border-box;
-}</style>
 
-    
+  html { scroll-behavior: smooth; }
 
-    <link rel="stylesheet" href="data/preview.uxpincdn.com_styles_preview-6eae8fc6.css">
-    
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 15px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
 
-    
-    <!-- auto-generated on export -->
-    <link rel="stylesheet" href="data/fonts.css">
+  /* Scanlines overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.04) 3px,
+      rgba(0,0,0,0.04) 4px
+    );
+    pointer-events: none;
+    z-index: 1000;
+  }
 
-    
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 3rem;
+    background: rgba(7,7,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
 
-    
-    <script type="text/javascript">
-      window.isHomepageEmbedMode = function(projectHash) {
-        return projectHash === '2ab8796efcf015eace22b4dc2205bd4301511b46';
-      };
-    </script>
+  .nav-logo {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: 1rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-decoration: none;
+  }
+
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8rem 3rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.4;
+    mask-image: radial-gradient(ellipse 80% 60% at 60% 50%, black 30%, transparent 100%);
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: 20%; right: -10%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(232,240,0,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-content { position: relative; z-index: 1; max-width: 900px; }
+
+  .hero-tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 0.3em 0.9em;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  h1.hero-name {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: clamp(2.8rem, 7vw, 6rem);
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  h1.hero-name span { color: var(--accent); }
+
+  .hero-role {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    font-weight: 600;
+    color: var(--muted);
+    margin-top: 1rem;
+    letter-spacing: 0.03em;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .hero-desc {
+    max-width: 580px;
+    margin-top: 2rem;
+    font-size: 0.92rem;
+    color: var(--muted);
+    line-height: 1.85;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    margin-top: 3rem;
+    animation: fadeUp 0.6s 0.4s ease both;
+  }
+
+  .btn {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.85em 2em;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 400;
+  }
+  .btn-primary:hover { background: #fff; }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 4rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--border);
+    animation: fadeUp 0.6s 0.5s ease both;
+  }
+
+  .stat-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .stat-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.25rem;
+  }
+
+  /* ─── ABOUT ─── */
+  .about {
+    padding: 6rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: center;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+
+  h2.section-title {
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+  }
+
+  .about-text p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.9;
+    margin-bottom: 1rem;
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .skill-item {
+    background: var(--card-bg);
+    padding: 1.25rem 1.5rem;
+    transition: background 0.2s;
+  }
+  .skill-item:hover { background: var(--surface); }
+
+  .skill-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text);
+    margin-bottom: 0.2rem;
+  }
+  .skill-desc {
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* ─── PROJECTS ─── */
+  #projects {
+    padding: 6rem 3rem;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+
+  .project-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+  }
+
+  .project-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(232,240,0,0.04) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .project-card:hover::after { opacity: 1; }
+
+  .project-thumb {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.85) saturate(0.9);
+    transition: filter 0.3s;
+  }
+  .project-card:hover .project-thumb { filter: brightness(1) saturate(1.1); }
+
+  /* Placeholder image style */
+  .thumb-placeholder {
+    width: 100%;
+    aspect-ratio: 16/9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Orbitron', monospace;
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    color: rgba(232,240,0,0.15);
+    position: relative;
+    overflow: hidden;
+  }
+  .thumb-placeholder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(232,240,0,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232,240,0,0.04) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .project-body { padding: 1.5rem; }
+
+  .project-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+    opacity: 0.7;
+  }
+
+  .project-title {
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+
+  .project-desc {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.3em 0.7em;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .project-card:hover .tag { border-color: rgba(232,240,0,0.3); color: var(--accent); }
+
+  .tag.accent {
+    border-color: rgba(232,240,0,0.4);
+    color: var(--accent);
+    background: var(--accent-dim);
+  }
+
+  .project-arrow {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    font-size: 1.1rem;
+    color: var(--accent);
+    opacity: 0;
+    transform: translate(-4px, 4px);
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .project-card:hover .project-arrow { opacity: 1; transform: translate(0,0); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--muted);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .footer-links { display: flex; gap: 2rem; }
+  .footer-links a { color: var(--muted); text-decoration: none; }
+  .footer-links a:hover { color: var(--accent); }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { padding: 6rem 1.5rem 3rem; }
+    .about { grid-template-columns: 1fr; gap: 3rem; padding: 4rem 1.5rem; }
+    #projects { padding: 4rem 1.5rem; }
+    .projects-grid { grid-template-columns: 1fr 1fr; }
+    .section-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .hero-stats { gap: 2rem; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
+  }
+
+  @media (max-width: 600px) {
+    .projects-grid { grid-template-columns: 1fr; }
+    .skills-grid { grid-template-columns: 1fr; }
+  }
+</style>
 </head>
+<body>
 
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">GD</a>
+  <ul class="nav-links">
+    <li><a href="#about">Sobre mí</a></li>
+    <li><a href="#projects">Proyectos</a></li>
+    <li><a href="mailto:tucorreo@email.com">Contacto</a></li>
+  </ul>
+</nav>
 
-<body ng-controller="HomeController"
-      class="loading" ng-class="{
-        'loading' : isLoading,
-        'left-panel-active' : isPanelVisible(PREVIEW_PANELS.SITEMAP),
-        'sitemap-visible' : isPanelVisible(PREVIEW_PANELS.SITEMAP),
-        
-      }"
-      ng-keydown="keyDown($event)">
-    
-    <div ui-view="topBar"></div>
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
 
-    <div ui-view></div>
-    <div ui-view="sitemap"></div>
-    <div ui-view="documentation"></div>
-    <div ui-view="canvas"></div>
-    <div ui-view="overlay"></div>
-    <div class="loader"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Game Developer Portfolio</div>
 
+    <h1 class="hero-name">
+      Hello,<br>
+      I'm<br>
+      <span>Jan Planes</span>
+    </h1>
 
-    <script type="text/javascript">
-    window.ApplicationConfiguration = {
-            awsLambdaExternalRequestUrl: 'https://qfgh9ucvol.execute-api.us-west-1.amazonaws.com/production/external_request',
-            project:{"id_project":9758719,"custom_font_css_url":"https://api.uxpin.com/fonts/custom/css/file?id=1383170","created_at":"2026-02-11T20:30:17Z","custom_fonts_url":"https://api.uxpin.com/fonts/custom/css/?id=1383170","features":{"anti_flicker_snippet":false,"merge_external_url_disabled":true,"responsive_mode":true,"global_properties":false,"live_share":true,"user_testing":false,"password":true,"team_comments":true,"spec_mode":true,"spec_mode_no_login":true,"spec_mode_styleguide":true,"comments_assignment":true,"design_views":false,"docs":true,"merge":true},"hash":"63a5bcbad4ac4561cfd85751ce5eb934f54e9e07","id_account":1383170,"is_account_active":true,"is_account_parked":false,"is_account_free":false,"is_merge_component_used":false,"id_collection":2827390,"collection_type":"ONBOARDING_FIRST_PROJECT","collection_status":0,"page_size_type":2,"id_original_project":null,"iteration_name":"","iteration_number":null,"name":"Portfolio","settings":{"deviceFrame":{"page219637891":{"resp0":{"color":"","cursor":"","fileName":"","isHiddenScrollbar":false,"isHorizontal":false,"name":""}},"page219637892":{"resp0":{"color":"","cursor":"","fileName":"","isHiddenScrollbar":false,"isHorizontal":false,"name":""}},"page219637893":{"resp0":{"color":"","cursor":"","fileName":"","isHiddenScrollbar":false,"isHorizontal":false,"name":""}}}},"type":"W","updated_at":"2026-02-19T10:44:50Z","variables":{}},
-            userData:{"is_trial":false,"is_anonymous":true,"is_owner":false},
-            mode: 'export',
-            menuEnabled:false,
-            modeMenuEnabled:false,
-        };
-         window._rollbarConfig = {};
-         window._rollbarInitialized = true;
-    </script>
+    <p class="hero-role">Game Developer · Designer · Programmer</p>
 
-    
-        <script type="text/javascript" src="data/preview.uxpincdn.com_scripts_engine-bfd6a81b.js"></script>
-        <script type="text/javascript" src="data/preview.uxpincdn.com_scripts_vendors-a0cca1fb.js"></script>
-        <script type="text/javascript" src="data/preview.uxpincdn.com_scripts_app-8c9f0401.js"></script>
-        
-    
+    <p class="hero-desc">
+      I'm a passionate Game Developer with a strong background in Game & Level Design and a significant background in C++, C#.
+      I have experience working with Unity, Unreal Engine and skilled at designing and implementing gameplay systems, mechanics and levels.
+      I'm a creative worker that enjoys working with groups to find new and fun ideas.
+      With a good comprehension on game development principles, I strive to design and develop fun and polished experiences.
+    </p>
 
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary"><span>Projects</span> </a>
+      <a href="mailto:tucorreo@email.com" class="btn btn-ghost"><span>Contact me!</span></a>
+    </div>
+
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">6</div>
+        <div class="stat-label">Projects</div>
+      </div>
+      <!--<div>
+        <div class="stat-num">3+</div>
+        <div class="stat-label">Años exp.</div>
+      </div>-->
+      <div>
+        <div class="stat-num">2</div>
+        <div class="stat-label">Engines</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-text reveal">
+    <div class="section-label">// About me</div>
+    <h2 class="section-title">Who<br>am I?</h2>
+    <p>
+      I'm a videogame developer with experience working with multiple roles 
+      in various projects, especially in <span>Game Design</span>, <span>Level Design</span>, as well as <span>Mechanics programmer</span>
+    </p>
+    <p>
+      I love to design fun experiences and games that make the player have fun
+      and feel accomplished. Every project I strive to find the best way to bring my imagination into games.
+    </p>
+    <div style="margin-top:2rem">
+      <a href="mailto:tucorreo@email.com" class="btn btn-primary">Contact me</a>
+    </div>
+  </div>
+
+  <div class="skills-grid reveal">
+    <div class="skill-item">
+      <div class="skill-name">Unity / C#</div>
+      <div class="skill-desc">Main Engine</div>
+    </div>
+    <div class="skill-item">
+      <div class="skill-name">Unreal Engine</div>
+      <div class="skill-desc">Blueprints & C++</div>
+    </div>
+    <div class="skill-item">
+      <div class="skill-name">Game Design</div>
+      <div class="skill-desc">Systems & levels</div>
+    </div>
+    <div class="skill-item">
+      <div class="skill-name">Programming</div>
+      <div class="skill-desc">Gameplay & tools</div>
+    </div>
+    <div class="skill-item">
+      <div class="skill-name">Prototyping</div>
+      <div class="skill-desc">Prototypes & demos</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-label">// projects</div>
+      <h2 class="section-title">My work</h2>
+    </div>
+    <div style="color:var(--muted);font-size:0.75rem;letter-spacing:0.1em">6 projects</div>
+  </div>
+
+  <div class="projects-grid">
+
+    <a href="project.html?id=0" class="project-card reveal">
+      <div class="thumb-placeholder" style="background: linear-gradient(135deg,#0d0d20,#111130)">
+        P1
+      </div>
+      <span class="project-arrow">↗</span>
+      <div class="project-body">
+        <div class="project-number">01</div>
+        <div class="project-title">Little Things</div>
+        <p class="project-desc">
+         A monochromatic retro 2D platformer with short, 
+         fast-paced levels where everything that has color can be interacted with.
+        </p>
+        <div class="project-tags">
+          <span class="tag accent">Unity</span>
+          <span class="tag accent">C#</span>
+          <span class="tag">Game Design</span>
+          <span class="tag">Level Design</span>
+          <span class="tag">2D</span>
+          <span class="tag">Mechanics Programmer</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="project.html?id=1" class="project-card reveal">
+      <div class="thumb-placeholder" style="background: linear-gradient(135deg,#0d1020,#0c1430)">
+        P2
+      </div>
+      <span class="project-arrow">↗</span>
+      <div class="project-body">
+        <div class="project-number">02</div>
+        <div class="project-title">Pipo the Penguin</div>
+        <p class="project-desc">
+          A dynamic 3D platformer where you move fast with 
+          the use of mechanics from a penguin
+        </p>
+        <div class="project-tags">
+          <span class="tag accent">Unity</span>
+          <span class="tag">Level Design</span>
+          <span class="tag">3D</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="project.html?id=2" class="project-card reveal">
+      <div class="thumb-placeholder" style="background: linear-gradient(135deg,#100d20,#180d2e)">
+        P3
+      </div>
+      <span class="project-arrow">↗</span>
+      <div class="project-body">
+        <div class="project-number">03</div>
+        <div class="project-title">Time Shards</div>
+        <p class="project-desc">
+          A 2DHD roguelike with a turn-based, real-time combat system
+          heavily inspired in ARCO
+        </p>
+        <div class="project-tags">
+          <span class="tag accent">Unity</span>
+          <span class="tag">C#</span>
+          <span class="tag">Producer</span>
+          <span class="tag">Game Design</span>
+          <span class="tag">Level Design</span>
+          <span class="tag">Gameplay Programmer</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="project.html?id=3" class="project-card reveal">
+      <div class="thumb-placeholder" style="background: linear-gradient(135deg,#0d1a12,#0d1e14)">
+        P4
+      </div>
+      <span class="project-arrow">↗</span>
+      <div class="project-body">
+        <div class="project-number">04</div>
+        <div class="project-title">Donkey Kong Phaser Remake</div>
+        <p class="project-desc">
+          A recreation made in Phaser from the Arcade version of Donkey Kong
+        </p>
+        <div class="project-tags">
+          <span class="tag accent">Phaser</span>
+          <span class="tag accent">Javascript</span>
+          <span class="tag">Mechanics Programmer</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="project.html?id=4" class="project-card reveal">
+      <div class="thumb-placeholder" style="background: linear-gradient(135deg,#1a100d,#201410)">
+        P5
+      </div>
+      <span class="project-arrow">↗</span>
+      <div class="project-body">
+        <div class="project-number">05</div>
+        <div class="project-title">1942 SDL Remake</div>
+        <p class="project-desc">
+          Arcade videogame 1942 recreation made in SDL engine
+        </p>
+        <div class="project-tags">
+          <span class="tag accent">SDL</span>
+          <span class="tag">C++</span>
+          <span class="tag">Gameplay Programmer</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="project.html?id=5" class="project-card reveal">
+      <div class="thumb-placeholder" style="background: linear-gradient(135deg,#0d1818,#0a1a1a)">
+        P6
+      </div>
+      <span class="project-arrow">↗</span>
+      <div class="project-body">
+        <div class="project-number">06</div>
+        <div class="project-title">Player Controller for Movement Shooter</div>
+        <p class="project-desc">
+          Player Controller for a Movement Shooter I designed and developed for a prototype
+        </p>
+        <div class="project-tags">
+          <span class="tag accent">Unreal Engine</span>
+          <span class="tag">BluePrints</span>
+          <span class="tag">Game Design</span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2024 Jan Planes — Game Developer</span>
+  <div class="footer-links">
+    <a href="https://github.com/janplanes11" target="_blank">GitHub</a>
+    <a href="https://www.linkedin.com/in/jan-planes-mazcunan-2992712b0/" target="_blank">LinkedIn</a>
+    <a href="mailto:janplanesmazcu@gmail.com">Mail</a>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    el.style.transitionDelay = (i % 3 * 0.07) + 's';
+    observer.observe(el);
+  });
+</script>
 </body>
-
-
 </html>
