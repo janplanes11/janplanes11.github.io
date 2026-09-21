@@ -502,7 +502,7 @@ const PROJECTS = [
     title: "Little Things",
     tags: ["Unity", "2D", "Game Designer", "Level Designer", "Mechanics Programmer"],
     accentTag: "Unity",
-    heroImage: "images/LT_Logo.png",  // ← Ruta a la imagen de portada, ej: "images/little-things-cover.png"
+    heroImage: "images/LT_Logo.png",  
     bgColor: "linear-gradient(135deg,#0d0d20,#111130)",
     engine: "Unity",
     role: "Game Design / Level Design",
@@ -548,7 +548,7 @@ const PROJECTS = [
     title: "Pipo the Penguin",
     tags: ["Unity", "Level Design", "3D"],
     accentTag: "Unity",
-    heroImage: "images/PP_LOGO.png",  // ← Ruta a la imagen de portada, ej: "images/pipo-cover.png"
+    heroImage: "images/PP_LOGO.png",  
     bgColor: "linear-gradient(135deg,#0d1020,#0c1430)",
     engine: "Unity 6",
     role: "Level Designer",
@@ -566,8 +566,11 @@ const PROJECTS = [
     roleDescription: `
       <p>My main role was <strong style="color:var(--text)">Level Designer</strong>. I designed and worked on multiple
         levels from drafts to block out to the final product with all the dressing.</p>
+        
         ${img("images/PP_SC_4.png")}
-      <p>The main objective was to figure different gimmicks for levels that would work for a 'speedrunning' playstyle
+      <p>These levels were documented in a Level Design Document, where I explained the main gimmicks of the level, the flow and the objectives of the player.</p>
+      <p>The objective of this project as a Final Degree Project was to explore and design a philosophy or method of my own. After exhaustive testing and reiteration, I used a mixture of Rational Level Design in a Kishotenketsu structure.</p>
+      <p>Design-wise it was to figure different gimmicks for levels that would work for a 'speedrunning' playstyle
         , since the main appeal of the game is to try and go as fast as you can.
         The majority of levels focus on a linear experience with touches of exploration to make the player enjoy going off the beaten path.</p>
         Although not all levels made the cut, it served as a learning experience that 
@@ -576,7 +579,7 @@ const PROJECTS = [
         ${img("images/PP_SC_3.png")}
     `,
     achievements: [
-      "Designed and implemented 5 levels, from scratch to dressed ",
+      "Designed, documented and implemented 5 levels, from scratch to dressed ",
       "Learned to use modeling tools such as ProBuilder",
       "3 nominations at ENTI-UB's DemoDay Awards: Best TFG/VS, Best Gameplay and Best Trailer ",
       "Won Best Trailer Award at ENTI-UB's Demoday Awards"
@@ -861,7 +864,7 @@ function renderProject(id) {
         font-family:'DM Mono',monospace; font-size:0.72rem; letter-spacing:0.12em;
         text-transform:uppercase; padding:1em 2em;
         background:var(--accent); color:var(--bg); transition:background 0.2s;
-      ">Ver proyecto ↗</a>`;
+      ">Find it here ↗</a>`;
   }
 
   // Description
