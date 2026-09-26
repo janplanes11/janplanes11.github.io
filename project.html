@@ -555,7 +555,7 @@ const PROJECTS = [
     duration: "2025-2026",
     team: "5 persons",
     platform: "PC",
-    link: "",
+    link: "https://hellframe-studios.itch.io/pipo-the-penguin",
     description: `
       <p>Pipo the Penguin is a dynamic 3D platformer where your objective is to go as fast as possible with the moveset of a penguin.</p>
       <p>The game center around Pipo, an indebted penguin who forgets to catch a ferry and his family abandons him.
@@ -588,6 +588,55 @@ const PROJECTS = [
   {
     id: 2,
     number: "03",
+    title: "GDD for a Charge feature in ULTRAKILL",
+    tags: ["Game Design", "Design and Documentation"],
+    accentTag: "Game Design",
+    heroImage: "images/UK_Top.jpg",  // ← Ruta a la imagen de portada, ej: "images/1942-cover.png"
+    bgColor: "linear-gradient(135deg,#1a100d,#201410)",
+    engine: "Google Docs",
+    role: "Game Designer",
+    duration: "1 month",
+    team: "1 persons",
+    platform: "PC",
+    link: "https://docs.google.com/document/d/1Lvt1-GJDSl9kX476g6lEok9x-2a57arifLkbGgnZQFM/edit?usp=sharing",
+    description: `
+      <p>This project involved creating a Game Design Document for implementing a Charge feature in ULTRAKILL.
+        The Charge mechanic was designed as a slower Dash that would allow to player to push back enemies or himself depending on the weight of the enemy and the player,
+        enabling more options to pin down or combo enemies in a fluid manner.</p>
+        <p>This was designed previous to the reveal of the JackHammer, 
+          which is a weapon that has an interaction similar to the Charge feature I designed.</p>
+        ${img("images/UKGDD_Light.png")}
+        <p>The document states a hypothesis about the need of a feature like this, how should it work and be presented, and what benefits it would provide.
+        The GDD also includes specific interactions for each enemy type, 
+        taking into account how the weight of the enemies affects the outcome of your moves, showing the different outcomes via visual mockups.</p>
+        ${img("images/UKGDD_Heavy.png")}
+        <p>It includes a list of various specific outcomes for each boss and enemy during the game's state at the time, 
+        having recently released the Violence layer at the point of development.</p>
+        ${img("images/UK_GDD_BossOutcomes.png")}
+        <p>These specific outcomes were determined based on the weight and regular behavior of each enemy, understanding their interactions with 
+          already existing game mechanics, and figuring out how to fit the Charge mechanic into the existing framework.</p>
+${img("images/UKGDD_EnemyOutcomes.png")}
+<p> The document explains the design of the mechanic itself, but the level design and where in the game it should be introduced, with mockups of areas where it would be a must to use.</p>
+${img("images/UKGDD_LevelDesign.png")}
+<p>Furthermore, the GDD justifies its existence not only gameplay and design-wise, but also from a narrative perspective, 
+  explaining how the Charge mechanic fits into the game's story and world, and how it could be introduced to the player in a way that feels natural and engaging.</p>
+    `,
+    roleDescription: `
+      <p>This was an individual job, which consisted solely of designing and documenting the Charge feature. 
+        My role was to design the feature, 
+        and afterwards create and write the design documents and ensure that the feature was well-integrated into the game's overall design.</p>
+      ${img("images/UKGDD_RankSystem.png")}
+    `,
+    achievements: [
+      "The work done on this GDD enabled me to gain a Honor's Degree in Game Design",
+      "Learnt how to design and document a game mechanic in a professional manner",
+      "Learnt the importance of considering every detail and existing game mechanic when designing a new feature.",
+      
+    ]
+  },
+  {
+    id: 3,
+    number: "04",
     title: "Time Shards",
     tags: ["Unity", "Producer", "Game Design", "Level Design", "Mechanics Programmer"],
     accentTag: "Unity",
@@ -651,8 +700,8 @@ ${img("images/TS_SC_2.png")}
     ]
   },
   {
-    id: 3,
-    number: "04",
+    id: 4,
+    number: "05",
     title: "Donkey Kong Phaser Remake",
     tags: ["Phaser", "JavaScript", "Mechanics"],
     accentTag: "Phaser",
@@ -712,8 +761,8 @@ ${img("images/TS_SC_2.png")}
     ]
   },
   {
-    id: 4,
-    number: "05",
+    id: 5,
+    number: "06",
     title: "1942 SDL Remake",
     tags: ["SDL", "C++", "Arcade"],
     accentTag: "SDL",
@@ -757,9 +806,10 @@ ${img("images/1942_SC_1.png")}
       
     ]
   },
+  
   {
-    id: 5,
-    number: "06",
+    id: 6,
+    number: "07",
     title: "Player Controller for Movement Shooter",
     tags: ["Unreal Engine 5", "Game Design", "BluePrints"],
     accentTag: "Unreal Engine 5",
